@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+.env/
+
+# Patient dataset
+diabetes_binary_health.csv
+
+# Streamlit secrets
+.streamlit/secrets.toml
+
+# Salesforce
+.sf/
