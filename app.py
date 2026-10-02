@@ -1,32 +1,18 @@
+```python
 import streamlit as st
 import pandas as pd
 import joblib
 import base64
 
-
-# ==========================================================
-# LOAD MODEL FILES
-# ==========================================================
-
 model = joblib.load("diabetes_model.pkl")
 scaler = joblib.load("diabetes_scaler.pkl")
 gender_encoder = joblib.load("gender_encoder.pkl")
-
-
-# ==========================================================
-# PAGE CONFIGURATION
-# ==========================================================
 
 st.set_page_config(
     page_title="Diabetes Risk Prediction",
     page_icon="👨‍⚕️",
     layout="centered"
 )
-
-
-# ==========================================================
-# BACKGROUND AND CUSTOM CSS
-# ==========================================================
 
 def set_background(image_file):
 
@@ -37,10 +23,6 @@ def set_background(image_file):
         f"""
         <style>
 
-        /* ==================================================
-           BACKGROUND
-        ================================================== */
-
         .stApp {{
             background-image: url("data:image/png;base64,{img}");
             background-size: cover;
@@ -48,22 +30,12 @@ def set_background(image_file):
             background-attachment: fixed;
         }}
 
-
-        /* ==================================================
-           MAIN WHITE CONTAINER
-        ================================================== */
-
         .block-container {{
             max-width: 800px;
             background: rgba(255, 255, 255, 0.94);
             padding: 2rem;
             border-radius: 15px;
         }}
-
-
-        /* ==================================================
-           TOP LOGO
-        ================================================== */
 
         .logo-container {{
             display: flex;
@@ -79,19 +51,9 @@ def set_background(image_file):
             object-fit: contain;
         }}
 
-
-        /* ==================================================
-           MAIN TEXT
-        ================================================== */
-
         .stApp p {{
             color: #263238 !important;
         }}
-
-
-        /* ==================================================
-           HEADINGS
-        ================================================== */
 
         .stApp h1 {{
             color: #17365d !important;
@@ -105,20 +67,10 @@ def set_background(image_file):
             color: #17365d !important;
         }}
 
-
-        /* ==================================================
-           INPUT LABELS
-        ================================================== */
-
         .stApp label {{
             color: #263238 !important;
             font-weight: 500 !important;
         }}
-
-
-        /* ==================================================
-           SELECT BOX
-        ================================================== */
 
         div[data-baseweb="select"] > div {{
             background-color: white !important;
@@ -129,11 +81,6 @@ def set_background(image_file):
         div[data-baseweb="select"] * {{
             color: #263238 !important;
         }}
-
-
-        /* ==================================================
-           SELECT BOX DROPDOWN
-        ================================================== */
 
         div[role="listbox"] {{
             background-color: white !important;
@@ -148,11 +95,6 @@ def set_background(image_file):
             background-color: #eaf3ff !important;
             color: #17365d !important;
         }}
-
-
-        /* ==================================================
-           AWARENESS SECTION
-        ================================================== */
 
         .stExpander {{
             background-color: rgba(248, 250, 252, 0.98);
@@ -175,19 +117,9 @@ def set_background(image_file):
             font-weight: 600;
         }}
 
-
-        /* ==================================================
-           INFORMATION BOX
-        ================================================== */
-
         .stAlert p {{
             color: #263238 !important;
         }}
-
-
-        /* ==================================================
-           PREDICT BUTTON
-        ================================================== */
 
         .stButton > button {{
             background-color: #1976d2 !important;
@@ -209,14 +141,7 @@ def set_background(image_file):
         unsafe_allow_html=True
     )
 
-
-# Apply background
 set_background("diabetes_background_clean.png")
-
-
-# ==========================================================
-# TOP LPSIRE LOGO
-# ==========================================================
 
 try:
 
@@ -238,36 +163,17 @@ except FileNotFoundError:
         "LPSIRE logo not found. Please keep lpsire_logo.png in the project folder."
     )
 
-
-# ==========================================================
-# TITLE
-# ==========================================================
-
 st.title("👨‍⚕️ Diabetes Risk Prediction")
 
 st.write(
     "Enter the patient's health information to get a prediction."
 )
 
-
-# ==========================================================
-# PATIENT DETAILS
-# ==========================================================
-
 st.subheader("Enter Patient Details")
 
 col1, col2 = st.columns(2)
 
-
-# ==========================================================
-# LEFT COLUMN
-# ==========================================================
-
 with col1:
-
-    # ------------------------------------------------------
-    # AGE
-    # ------------------------------------------------------
 
     age_options = list(range(1, 121))
 
@@ -276,11 +182,6 @@ with col1:
         age_options,
         index=29
     )
-
-
-    # ------------------------------------------------------
-    # BMI
-    # ------------------------------------------------------
 
     bmi_options = [
         round(x / 10, 1)
@@ -293,11 +194,6 @@ with col1:
         index=bmi_options.index(25.0)
     )
 
-
-    # ------------------------------------------------------
-    # SYSTOLIC BLOOD PRESSURE
-    # ------------------------------------------------------
-
     systolic_options = list(range(50, 251))
 
     systolic_bp = st.selectbox(
@@ -305,11 +201,6 @@ with col1:
         systolic_options,
         index=systolic_options.index(120)
     )
-
-
-    # ------------------------------------------------------
-    # CHOLESTEROL
-    # ------------------------------------------------------
 
     cholesterol_options = list(range(50, 401))
 
@@ -319,26 +210,12 @@ with col1:
         index=cholesterol_options.index(200)
     )
 
-
-# ==========================================================
-# RIGHT COLUMN
-# ==========================================================
-
 with col2:
-
-    # ------------------------------------------------------
-    # GENDER
-    # ------------------------------------------------------
 
     gender = st.selectbox(
         "Gender",
         ["Male", "Female"]
     )
-
-
-    # ------------------------------------------------------
-    # PHYSICAL ACTIVITY
-    # ------------------------------------------------------
 
     activity_options = list(range(0, 2001, 10))
 
@@ -348,11 +225,6 @@ with col2:
         index=activity_options.index(150)
     )
 
-
-    # ------------------------------------------------------
-    # DIASTOLIC BLOOD PRESSURE
-    # ------------------------------------------------------
-
     diastolic_options = list(range(30, 151))
 
     diastolic_bp = st.selectbox(
@@ -360,11 +232,6 @@ with col2:
         diastolic_options,
         index=diastolic_options.index(80)
     )
-
-
-    # ------------------------------------------------------
-    # GLUCOSE
-    # ------------------------------------------------------
 
     glucose_options = list(range(40, 501))
 
@@ -374,28 +241,14 @@ with col2:
         index=glucose_options.index(100)
     )
 
-
-# ==========================================================
-# PREDICT BUTTON
-# ==========================================================
-
 if st.button(
     "Predict Diabetes",
     use_container_width=True
 ):
 
-    # ------------------------------------------------------
-    # CONVERT GENDER TO NUMERICAL VALUE
-    # ------------------------------------------------------
-
     gender_encoded = gender_encoder.transform(
         [gender]
     )[0]
-
-
-    # ------------------------------------------------------
-    # CREATE PATIENT DATA
-    # ------------------------------------------------------
 
     patient_data = pd.DataFrame([
         {
@@ -410,19 +263,9 @@ if st.button(
         }
     ])
 
-
-    # ------------------------------------------------------
-    # SCALE PATIENT DATA
-    # ------------------------------------------------------
-
     patient_scaled = scaler.transform(
         patient_data
     )
-
-
-    # ------------------------------------------------------
-    # MAKE PREDICTION
-    # ------------------------------------------------------
 
     prediction = model.predict(
         patient_scaled
@@ -432,13 +275,7 @@ if st.button(
         patient_scaled
     )[0]
 
-
-    # ======================================================
-    # PREDICTION RESULT
-    # ======================================================
-
     st.subheader("Prediction Result")
-
 
     if prediction == 1:
 
@@ -452,29 +289,17 @@ if st.button(
             "Prediction: Not Diabetic"
         )
 
-
-    # ------------------------------------------------------
-    # PROBABILITY
-    # ------------------------------------------------------
-
     c1, c2 = st.columns(2)
-
 
     c1.metric(
         "Not Diabetic",
         f"{probability[0] * 100:.2f}%"
     )
 
-
     c2.metric(
         "Diabetic",
         f"{probability[1] * 100:.2f}%"
     )
-
-
-# ==========================================================
-# DIABETES AWARENESS
-# ==========================================================
 
 st.divider()
 
@@ -484,11 +309,6 @@ st.write(
     "Learn about common symptoms, healthy food choices, "
     "and simple precautions related to diabetes."
 )
-
-
-# ==========================================================
-# COMMON SYMPTOMS
-# ==========================================================
 
 with st.expander("🔍 Common Symptoms"):
 
@@ -503,11 +323,6 @@ with st.expander("🔍 Common Symptoms"):
         """
     )
 
-
-# ==========================================================
-# HEALTHY FOOD CHOICES
-# ==========================================================
-
 with st.expander("🥗 Healthy Food Choices"):
 
     st.write(
@@ -520,11 +335,6 @@ with st.expander("🥗 Healthy Food Choices"):
         - Water instead of sugary drinks
         """
     )
-
-
-# ==========================================================
-# PRECAUTIONS
-# ==========================================================
 
 with st.expander("⚠️ Precautions"):
 
@@ -539,11 +349,6 @@ with st.expander("⚠️ Precautions"):
         """
     )
 
-
-# ==========================================================
-# WHEN SHOULD YOU TALK TO A DOCTOR?
-# ==========================================================
-
 with st.expander("👨‍⚕️ When Should You Talk to a Doctor?"):
 
     st.write(
@@ -554,15 +359,4 @@ with st.expander("👨‍⚕️ When Should You Talk to a Doctor?"):
         - Slow-healing wounds
         - Numbness or tingling in hands and feet
         - Concerns about diabetes, diet or medication
-        """
-    )
-
-
-# ==========================================================
-# FINAL AWARENESS MESSAGE
-# ==========================================================
-
-st.info(
-    "🌱 Awareness, healthy habits and regular checkups "
-    "help people take better care of their health."
-)
+```
